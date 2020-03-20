@@ -1,5 +1,5 @@
 {
-  "name": "schoenbeck/twigTemplateRenderer",
+  "name": "schoenbeck/twig-template-renderer",
   "type": "library",
   "version": "1.0.0",
   "description": "A package with helpful php tools(functions)",
