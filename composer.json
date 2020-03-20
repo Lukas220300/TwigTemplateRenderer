@@ -1,0 +1,23 @@
+{
+  "name": "schoenbeck/twigTemplateRenderer",
+  "type": "library",
+  "version": "1.0.0",
+  "description": "A package with helpful php tools(functions)",
+  "keywords": ["php","twig","template", "render"],
+  "homepage": "https://github.com/Lukas220300/TwigTemplateRenderer",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Lukas Schönbeck",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "twig/twig": "^3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "SCHOENBECK\\Webservices\\" : "src/"
+    }
+  }
+}
