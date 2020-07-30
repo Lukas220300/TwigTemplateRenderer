@@ -71,22 +71,6 @@ class TwigTemplateRender
     {
         return $this->twigEnvironment->load($templateName)->render($context);
     }
-
-    protected function dirToArray($dir)
-    {
-        $result = [];
-        $scanDir = scandir($dir);
-        foreach($scanDir as $key => $value) {
-            if(!in_array($value, ['.','..'])) {
-                if(is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
-                    $result[$value] = $this->dirToArray($dir . DIRECTORY_SEPARATOR . $value);
-                } else {
-                    $result[] = $value;
-                }
-            }
-        }
-        return $result;
-    }
     
     protected function scanDirectory($directory)
     {
