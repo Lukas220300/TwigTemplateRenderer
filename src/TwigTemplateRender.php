@@ -11,6 +11,9 @@ use Twig\Loader\FilesystemLoader;
 class TwigTemplateRender
 {
 
+    /**
+     * @var FilesystemLoader
+     */
     protected $templateLoader;
 
     /**
@@ -31,6 +34,12 @@ class TwigTemplateRender
         }
     }
 
+    /**
+     * Add a directory where a twig template is located. You can optional add a namespace for the given directory.
+     * 
+     * @param string $directoryPath
+     * @param string $nameSpace
+     */
     public function addTemplateDirectory(string $directoryPath, string $nameSpace = "main")
     {
         if("main" === $nameSpace || null === $nameSpace) {
@@ -40,6 +49,11 @@ class TwigTemplateRender
         }
     }
 
+    /**
+     * Add a array of directories where templates are located.
+     * 
+     * @param array $paths
+     */
     public function addTemplateDirectories(array $paths) 
     {
         foreach ($paths as $path) {
@@ -47,6 +61,14 @@ class TwigTemplateRender
         }
     }
 
+    /**
+     * Add a array of directories and there namespaces.
+     * Should look like this:
+     * 
+     * ['./templates' => 'root', './nextTemplates' => 'project']
+     * 
+     * @param array $pathNameSpace
+     */
     public function addTemplateDirectoriesWithNameSpaces(array $pathNameSpace) 
     {
         foreach ($pathNameSpace as $path => $nameSpace) {
@@ -54,9 +76,14 @@ class TwigTemplateRender
         }
     }
 
+    /**
+     * Add a directory recursive.
+     * 
+     * @param string $rootPath
+     */
     public function addTemplateRootDirectory(string $rootPath)
     {
-        $this->scanDirectory($rootPath);
+        $this->scanDirectory($rootPath); //TODO: refactor recursive function to only load a directory if a twig template is in it.
     }
 
     /**
