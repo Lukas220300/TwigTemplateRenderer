@@ -1,8 +1,8 @@
 {
   "name": "schoenbeck/twig-template-renderer",
   "type": "library",
-  "version": "1.0.1",
-  "description": "A package with helpful php tools(functions)",
+  "version": "2.0.0",
+  "description": "Renders Twig templates in php",
   "keywords": ["php","twig","template", "render"],
   "homepage": "https://github.com/Lukas220300/TwigTemplateRenderer",
   "license": "MIT",
