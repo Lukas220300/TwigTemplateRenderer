@@ -10,19 +10,53 @@ use Twig\Loader\FilesystemLoader;
 
 class TwigTemplateRender
 {
+
+    protected $templateLoader;
+
     /**
      * @var Environment
      */
-    private $twigEnviorment;
+    private $twigEnvironment;
 
     /**
      * TemplateRender constructor.
      * @param string $templateRootPath
      */
-    public function __construct($templateRootPath = './')
+    public function __construct($twigEnvironmentOptions = null)
     {
-        $loader = new FilesystemLoader($templateRootPath);
-        $this->twigEnviorment = new Environment($loader);
+        $this->templateLoader = new FilesystemLoader();
+        $this->twigEnvironment = new Environment($this->templateLoader);
+        if(null !== $twigEnvironmentOptions) {
+            $this->twigEnvironment = new Environment($this->templateLoader, $twigEnvironmentOptions);
+        }
+    }
+
+    public function addTemplateDirectory(string $directoryPath, string $nameSpace = "main")
+    {
+        if("main" === $nameSpace || null === $nameSpace) {
+            $this->templateLoader->addPath($directoryPath);
+        } else {
+            $this->templateLoader->addPath($directoryPath, $nameSpace);
+        }
+    }
+
+    public function addTemplateDirectories(array $paths) 
+    {
+        foreach ($paths as $path) {
+            $this->addTemplateDirectory($path);
+        }
+    }
+
+    public function addTemplateDirectoriesWithNameSpaces(array $pathNameSpace) 
+    {
+        foreach ($pathNameSpace as $path => $nameSpace) {
+            $this->addTemplateDirectory($path, $nameSpace);
+        }
+    }
+
+    public function addTemplateRootDirectory(string $rootPath)
+    {
+        $this->scanDirectory($rootPath);
     }
 
     /**
@@ -33,10 +67,38 @@ class TwigTemplateRender
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function renderTemplate($templateName = 'index.twig', $context = [])
+    public function renderTemplate($templateName, $context = [])
     {
-        $template = $this->twigEnviorment->load($templateName);
-        return $template->render($context);
+        return $this->twigEnvironment->load($templateName)->render($context);
+    }
+
+    protected function dirToArray($dir)
+    {
+        $result = [];
+        $scanDir = scandir($dir);
+        foreach($scanDir as $key => $value) {
+            if(!in_array($value, ['.','..'])) {
+                if(is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
+                    $result[$value] = $this->dirToArray($dir . DIRECTORY_SEPARATOR . $value);
+                } else {
+                    $result[] = $value;
+                }
+            }
+        }
+        return $result;
+    }
+    
+    protected function scanDirectory($directory)
+    {
+        $this->addTemplateDirectory($directory);
+        $scanDir = scandir($directory);
+        foreach($scanDir as $key => $value) {
+            if(!in_array($value, ['.','..'])) {
+                if(is_dir($directory . DIRECTORY_SEPARATOR . $value)) {
+                    $this->scanDirectory($directory . DIRECTORY_SEPARATOR . $value);
+                } 
+            }
+        }
     }
 
 }
