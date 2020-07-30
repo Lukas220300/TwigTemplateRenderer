@@ -1,6 +1,6 @@
 <?php
 
-namespace SCHOENBECK\Webservices;
+namespace SCHOENBECK\Renderer\Twig;
 
 use Twig\Environment;
 use Twig\Error\LoaderError;
