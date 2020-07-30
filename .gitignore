@@ -1,1 +1,6 @@
 .idea
+.dist
+.lando.yml
+vendor
+public
+public/*
